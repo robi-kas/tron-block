@@ -7,6 +7,7 @@ import { Navbar } from './Navbar';
 import { motion, AnimatePresence } from 'motion/react';
 import { Info, Bug, Eye, Activity, X, Megaphone } from 'lucide-react';
 import { useMatrix } from '../context/MatrixContext';
+import DebugPanel from './DebugPanel';
 
 export const ModeBanner = () => {
   const { accountMode, systemConfig } = useMatrix();
@@ -218,12 +219,14 @@ export const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
       <BackgroundParticles />
       <Navbar />
+      <ModeBanner />
 
       <main className="flex-1 relative z-10 w-full">
         <GlobalAnnouncement />
         {children}
       </main>
 
+      <DebugPanel />
       <CookieConsent />
     </div>
   );

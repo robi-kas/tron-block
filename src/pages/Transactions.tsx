@@ -50,6 +50,7 @@ const TrendingUp = ({ className }: { className?: string }) => (
 const Transactions = () => {
   const { t } = useLanguage();
   const { address } = useAccount();
+  const { accountMode } = useMatrix();
   const [transactions, setTransactions] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -192,7 +193,12 @@ const Transactions = () => {
                           {getTypeIcon(tx.type)}
                        </div>
                        <div>
-                          <p className="text-sm font-black text-black leading-none mb-1 capitalize">{tx.type}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="text-sm font-black text-black leading-none mb-1 capitalize">{tx.type}</p>
+                            {(accountMode === 'test' || accountMode === 'demo') && (
+                               <div className="px-1.5 py-0.5 rounded bg-black text-[#CCFF00] text-[7px] font-black uppercase tracking-tighter">Simulated</div>
+                            )}
+                          </div>
                           <span className={`text-[8px] font-black uppercase ${tx.category === 'income' ? 'text-green-600' : 'text-blue-600'} tracking-tighter flex items-center gap-1`}>
                             {tx.category === 'income' ? <TrendingUp className="w-2 h-2" /> : <RefreshCcw className="w-2 h-2" />} {tx.category}
                           </span>

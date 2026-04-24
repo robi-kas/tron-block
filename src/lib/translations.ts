@@ -251,6 +251,12 @@ export const translations = {
     activateSeatWithAmount: "Activate Seat ({amount} USDT)",
     liveRevenueStream: "Live Revenue Stream",
     launchWithdrawal: "Launch Withdrawal",
+    directMembersCount: "Direct Members Count",
+    directValidSeatCount: "Direct Valid Seat Count",
+    teamPerformanceVolume: "Team Performance Volume",
+    downlineLevelNodes: "Downline Level Nodes",
+    testMode: "Test Mode",
+    demoMode: "Demo Mode",
   },
   zh: {
     ruleVersion: "规则版本",
@@ -503,5 +509,11 @@ export const translations = {
     activateSeatWithAmount: "激活席位 ({amount} USDT)",
     liveRevenueStream: "实时收入流",
     launchWithdrawal: "发起提现",
+    directMembersCount: "直接成员数量",
+    directValidSeatCount: "直接有效席位数量",
+    teamPerformanceVolume: "团队业绩总量",
+    downlineLevelNodes: "下级层级节点",
+    testMode: "测试模式",
+    demoMode: "演示模式",
   }
 };
