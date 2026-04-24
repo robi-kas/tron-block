@@ -149,10 +149,10 @@ const AdminPanel: React.FC = () => {
   const handleSaveConfig = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/config', {
+      const res = await fetch('/api/admin/config/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editableConfig)
+        body: JSON.stringify({ data: editableConfig, version: editableConfig.version || `V${Date.now()}` })
       });
       if (res.ok) {
         alert('System configuration updated successfully!');
@@ -531,35 +531,74 @@ const AdminPanel: React.FC = () => {
                               <span className="text-3xl font-black italic text-white group-hover:text-[#CCFF00] transition-colors">{lvl.name}</span>
                               <span className="text-xs font-black uppercase text-white/40">Rank {lvl.rank}</span>
                            </div>
-                           <div className="grid grid-cols-2 gap-4">
-                              <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                                 <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Upgrade Cost</p>
-                                 <input 
-                                   type="number" 
-                                   value={lvl.upgradeCost} 
-                                   onChange={(e) => {
-                                     const newLevels = [...editableConfig.levels];
-                                     newLevels[i] = { ...lvl, upgradeCost: Number(e.target.value) };
-                                     setEditableConfig({ ...editableConfig, levels: newLevels });
-                                   }}
-                                   className="bg-transparent border-none text-sm font-black text-white w-full focus:outline-none"
-                                 />
-                              </div>
-                              <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                                 <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Reward Ratio</p>
-                                 <input 
-                                   type="number" 
-                                   step="0.01"
-                                   value={lvl.rewardRatio} 
-                                   onChange={(e) => {
-                                     const newLevels = [...editableConfig.levels];
-                                     newLevels[i] = { ...lvl, rewardRatio: Number(e.target.value) };
-                                     setEditableConfig({ ...editableConfig, levels: newLevels });
-                                   }}
-                                   className="bg-transparent border-none text-sm font-black text-white w-full focus:outline-none"
-                                 />
-                              </div>
-                           </div>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                               <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                                  <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Upgrade Cost</p>
+                                  <input 
+                                    type="number" 
+                                    value={lvl.upgradeCost} 
+                                    onChange={(e) => {
+                                      const newLevels = [...editableConfig.levels];
+                                      newLevels[i] = { ...lvl, upgradeCost: Number(e.target.value) };
+                                      setEditableConfig({ ...editableConfig, levels: newLevels });
+                                    }}
+                                    className="bg-transparent border-none text-sm font-black text-white w-full focus:outline-none"
+                                  />
+                               </div>
+                               <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                                  <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Reward (Single)</p>
+                                  <input 
+                                    type="number" 
+                                    value={lvl.reward} 
+                                    onChange={(e) => {
+                                      const newLevels = [...editableConfig.levels];
+                                      newLevels[i] = { ...lvl, reward: Number(e.target.value) };
+                                      setEditableConfig({ ...editableConfig, levels: newLevels });
+                                    }}
+                                    className="bg-transparent border-none text-sm font-black text-white w-full focus:outline-none"
+                                  />
+                               </div>
+                               <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                                  <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Revenue</p>
+                                  <input 
+                                    type="number" 
+                                    value={lvl.revenue} 
+                                    onChange={(e) => {
+                                      const newLevels = [...editableConfig.levels];
+                                      newLevels[i] = { ...lvl, revenue: Number(e.target.value) };
+                                      setEditableConfig({ ...editableConfig, levels: newLevels });
+                                    }}
+                                    className="bg-transparent border-none text-sm font-black text-white w-full focus:outline-none"
+                                  />
+                               </div>
+                               <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                                  <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Min Orders</p>
+                                  <input 
+                                    type="number" 
+                                    value={lvl.minOrders} 
+                                    onChange={(e) => {
+                                      const newLevels = [...editableConfig.levels];
+                                      newLevels[i] = { ...lvl, minOrders: Number(e.target.value) };
+                                      setEditableConfig({ ...editableConfig, levels: newLevels });
+                                    }}
+                                    className="bg-transparent border-none text-sm font-black text-white w-full focus:outline-none"
+                                  />
+                               </div>
+                               <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                                  <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Reward Ratio</p>
+                                  <input 
+                                    type="number" 
+                                    step="0.0001"
+                                    value={lvl.rewardRatio} 
+                                    onChange={(e) => {
+                                      const newLevels = [...editableConfig.levels];
+                                      newLevels[i] = { ...lvl, rewardRatio: Number(e.target.value) };
+                                      setEditableConfig({ ...editableConfig, levels: newLevels });
+                                    }}
+                                    className="bg-transparent border-none text-sm font-black text-white w-full focus:outline-none"
+                                  />
+                               </div>
+                            </div>
                         </div>
                       ))}
                    </div>
@@ -603,15 +642,19 @@ const AdminPanel: React.FC = () => {
                      <button 
                        onClick={async () => {
                          try {
-                           const res = await fetch('/api/admin/config', {
+                           const res = await fetch('/api/admin/config/update', {
                              method: 'POST',
                              headers: { 'Content-Type': 'application/json' },
                              body: JSON.stringify({ 
-                               globalBanner: { 
-                                 text: bannerText, 
-                                 active: bannerActive,
-                                 id: Date.now().toString() // New ID to force re-show for users
-                               } 
+                               version: `BANNER_${Date.now()}`,
+                               data: {
+                                 ...systemConfig,
+                                 globalBanner: { 
+                                   text: bannerText, 
+                                   active: bannerActive,
+                                   id: Date.now().toString() 
+                                 } 
+                               }
                              })
                            });
                            if (res.ok) alert('Announcement published to all users!');

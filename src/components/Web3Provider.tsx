@@ -17,7 +17,7 @@ export const config = createConfig({
       showQrModal: true, // This enables the default modal for the WalletConnect connector
       metadata: {
         name: 'TRON BLOCK',
-        description: 'On-chain decentralized matrix platform on TRON, BNB Chain, and Ethereum.',
+        description: 'On-chain decentralized matrix platform on BNB Chain and Ethereum.',
         url: typeof window !== 'undefined' ? window.location.origin : '',
         icons: ['https://raw.githubusercontent.com/TokenPocket/tokenpocket-brand/master/TokenPocket-logo-round.png']
       }

@@ -208,13 +208,23 @@ const System = () => {
                   )}
                 </div>
                 <div className="space-y-4">
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">{t.directRequirement}</p>
-                    <p className="text-sm font-black text-black group-hover:text-[#0038FF] transition-colors">{lvl.directReq} Members + {lvl.teamReq} Team</p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">Revenue</p>
+                      <p className="text-xs font-black text-black">{lvl.revenue ? lvl.revenue.toLocaleString() : '0'} USDT</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">Min Orders</p>
+                      <p className="text-xs font-black text-black">{lvl.minOrders || '0'}</p>
+                    </div>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">{t.rewardAmount}</p>
-                    <p className="text-xl font-black text-black">{lvl.upgradeCost === 0 ? 'FREE' : `${lvl.upgradeCost} USDT`}</p>
+                    <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">Reward (Single)</p>
+                    <p className="text-sm font-black text-black group-hover:text-[#0038FF] transition-colors">{lvl.reward ? lvl.reward.toLocaleString() : '0'} USDT</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">Total Requirement</p>
+                    <p className="text-xs font-black text-black italic">{lvl.directReq || 0} Direct + {lvl.teamReq || 0} Team</p>
                   </div>
                   {isRegistered && i + 1 > currentLevel && (
                     <motion.button

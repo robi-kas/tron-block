@@ -10,13 +10,37 @@ import {
   Cpu, 
   RefreshCcw, 
   Globe,
-  Bug
+  Bug,
+  Zap
 } from 'lucide-react';
 import { useMatrix } from '../context/MatrixContext';
+import { useAccount } from 'wagmi';
 
 const DebugPanel = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { accountMode, systemConfig, stats } = useMatrix();
+  const { accountMode, systemConfig, stats, refreshData } = useMatrix();
+  const { address } = useAccount();
+
+  const handleCreateDemo = async () => {
+    if (!address) {
+      alert("Please connect wallet first");
+      return;
+    }
+    try {
+      const res = await fetch('/api/matrix/demo/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert("Demo V5 Account Initialized! Refreshing data...");
+        refreshData();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // Only show for internal users (for now we check mode)
   if (accountMode === 'production') return null;
@@ -116,6 +140,12 @@ const DebugPanel = () => {
                   <div className="space-y-3">
                      <button className="w-full bg-white/10 text-white py-3 rounded-xl font-black uppercase text-[10px] hover:bg-white/20 transition-all flex items-center justify-center gap-2">
                         <RefreshCcw className="w-3 h-3" /> Clear Local Cache
+                     </button>
+                     <button 
+                       onClick={handleCreateDemo}
+                       className="w-full bg-[#CCFF00] text-black py-3 rounded-xl font-black uppercase text-[10px] hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[4px_4px_0_0_#0038FF]"
+                     >
+                        <Zap className="w-3 h-3" /> Initialize V5 Demo
                      </button>
                      <button className="w-full bg-red-600/20 text-red-500 py-3 rounded-xl font-black uppercase text-[10px] hover:bg-red-600/30 transition-all">
                         Force Recalculation

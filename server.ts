@@ -113,16 +113,16 @@ function initDB() {
           buyback: "System buyback triggers automatic seat creation for sustainability."
         },
         levels: [
-          { rank: 1, name: "V1", upgradeCost: 0, directReq: 0, teamReq: 0, rewardRatio: 0.10 },
-          { rank: 2, name: "V2", upgradeCost: 200, directReq: 3, teamReq: 10, rewardRatio: 0.15 },
-          { rank: 3, name: "V3", upgradeCost: 500, directReq: 5, teamReq: 30, rewardRatio: 0.20 },
-          { rank: 4, name: "V4", upgradeCost: 1200, directReq: 8, teamReq: 100, rewardRatio: 0.25 },
-          { rank: 5, name: "V5", upgradeCost: 3000, directReq: 12, teamReq: 300, rewardRatio: 0.30 },
-          { rank: 6, name: "V6", upgradeCost: 8000, directReq: 15, teamReq: 800, rewardRatio: 0.35 },
-          { rank: 7, name: "V7", upgradeCost: 20000, directReq: 20, teamReq: 2000, rewardRatio: 0.40 },
-          { rank: 8, name: "V8", upgradeCost: 50000, directReq: 25, teamReq: 5000, rewardRatio: 0.45 },
-          { rank: 9, name: "V9", upgradeCost: 120000, directReq: 30, teamReq: 12000, rewardRatio: 0.50 },
-          { rank: 10, name: "V10", upgradeCost: 300000, directReq: 40, teamReq: 30000, rewardRatio: 0.60 }
+          { rank: 1, name: "V1", upgradeCost: 0, reward: 500, revenue: 2000, minOrders: 4, rewardRatio: 0.25 },
+          { rank: 2, name: "V2", upgradeCost: 200, reward: 1000, revenue: 11000, minOrders: 22, rewardRatio: 0.4091 },
+          { rank: 3, name: "V3", upgradeCost: 500, reward: 2500, revenue: 47000, minOrders: 94, rewardRatio: 0.5319 },
+          { rank: 4, name: "V4", upgradeCost: 1200, reward: 5000, revenue: 191000, minOrders: 382, rewardRatio: 0.6126 },
+          { rank: 5, name: "V5", upgradeCost: 3000, reward: 10000, revenue: 767000, minOrders: 1534, rewardRatio: 0.6584 },
+          { rank: 6, name: "V6", upgradeCost: 8000, reward: 20000, revenue: 3071000, minOrders: 6142, rewardRatio: 0.6828 },
+          { rank: 7, name: "V7", upgradeCost: 20000, reward: 48000, revenue: 12286500, minOrders: 24573, rewardRatio: 0.6961 },
+          { rank: 8, name: "V8", upgradeCost: 50000, reward: 96000, revenue: 49151000, minOrders: 98302, rewardRatio: 0.7033 },
+          { rank: 9, name: "V9", upgradeCost: 120000, reward: 880000, revenue: 196606500, minOrders: 393214, rewardRatio: 0.7106 },
+          { rank: 10, name: "V10", upgradeCost: 300000, reward: 8800000, revenue: 786431000, minOrders: 1572862, rewardRatio: 0.7258 }
         ],
         matrixRules: {
           spilloverEnabled: true,
@@ -373,6 +373,48 @@ async function startServer() {
       turnover24h: 124500,
       ruleVersion: "V2026.04.24"
     });
+  });
+
+  // Demo Account Generator (for Client Testing)
+  app.post("/api/matrix/demo/create", (req, res) => {
+    try {
+      const { address } = req.body;
+      if (!address) return res.status(400).json({ error: "Address required" });
+
+      const runDemoGen = db.transaction(() => {
+        // Delete if exists to reset
+        db.prepare("DELETE FROM users WHERE address = ?").run(address);
+        
+        // Create V5 User
+        const result = db.prepare(
+          "INSERT INTO users (address, referral_id, level, mode, balance, total_rewards) VALUES (?, 100001, 5, 'demo', 5000, 12500)"
+        ).run(address);
+        
+        const userId = result.lastInsertRowid;
+
+        // Add some seats
+        for (let i = 1; i <= 5; i++) {
+          db.prepare(
+            "INSERT INTO seats (user_id, level_name, origin, status) VALUES (?, ?, 'Demo Injection', 'active')"
+          ).run(userId, `V${i}`);
+        }
+
+        // Add some earnings
+        const types = ['upgrade', 'matrix', 'differential'];
+        for (let i = 0; i < 10; i++) {
+          db.prepare(
+            "INSERT INTO earnings (user_id, amount, type, metadata) VALUES (?, ?, ?, ?)"
+          ).run(userId, 50 + (i * 10), types[i % 3], JSON.stringify({ ratio: 0.1, source: '0xMock' }));
+        }
+
+        return userId;
+      });
+
+      const userId = runDemoGen();
+      res.json({ success: true, userId, message: "Demo account V5 created" });
+    } catch (err) {
+      res.status(500).json({ error: "Demo creation failed", details: err });
+    }
   });
 
   // --- Admin API Endpoints ---
