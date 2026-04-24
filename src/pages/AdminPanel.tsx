@@ -585,6 +585,19 @@ const AdminPanel: React.FC = () => {
                                   />
                                </div>
                                <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                                  <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Min Members</p>
+                                  <input 
+                                    type="number" 
+                                    value={lvl.minMembers} 
+                                    onChange={(e) => {
+                                      const newLevels = [...editableConfig.levels];
+                                      newLevels[i] = { ...lvl, minMembers: Number(e.target.value) };
+                                      setEditableConfig({ ...editableConfig, levels: newLevels });
+                                    }}
+                                    className="bg-transparent border-none text-sm font-black text-white w-full focus:outline-none"
+                                  />
+                               </div>
+                               <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
                                   <p className="text-[8px] font-black text-[#CCFF00] uppercase tracking-widest mb-1">Reward Ratio</p>
                                   <input 
                                     type="number" 

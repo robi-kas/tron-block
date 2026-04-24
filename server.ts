@@ -113,16 +113,16 @@ function initDB() {
           buyback: "System buyback triggers automatic seat creation for sustainability."
         },
         levels: [
-          { rank: 1, name: "V1", upgradeCost: 0, reward: 500, revenue: 2000, minOrders: 4, rewardRatio: 0.25 },
-          { rank: 2, name: "V2", upgradeCost: 200, reward: 1000, revenue: 11000, minOrders: 22, rewardRatio: 0.4091 },
-          { rank: 3, name: "V3", upgradeCost: 500, reward: 2500, revenue: 47000, minOrders: 94, rewardRatio: 0.5319 },
-          { rank: 4, name: "V4", upgradeCost: 1200, reward: 5000, revenue: 191000, minOrders: 382, rewardRatio: 0.6126 },
-          { rank: 5, name: "V5", upgradeCost: 3000, reward: 10000, revenue: 767000, minOrders: 1534, rewardRatio: 0.6584 },
-          { rank: 6, name: "V6", upgradeCost: 8000, reward: 20000, revenue: 3071000, minOrders: 6142, rewardRatio: 0.6828 },
-          { rank: 7, name: "V7", upgradeCost: 20000, reward: 48000, revenue: 12286500, minOrders: 24573, rewardRatio: 0.6961 },
-          { rank: 8, name: "V8", upgradeCost: 50000, reward: 96000, revenue: 49151000, minOrders: 98302, rewardRatio: 0.7033 },
-          { rank: 9, name: "V9", upgradeCost: 120000, reward: 880000, revenue: 196606500, minOrders: 393214, rewardRatio: 0.7106 },
-          { rank: 10, name: "V10", upgradeCost: 300000, reward: 8800000, revenue: 786431000, minOrders: 1572862, rewardRatio: 0.7258 }
+          { rank: 1, name: "V1", upgradeCost: 0, reward: 500, revenue: 2000, minOrders: 4, minMembers: 1, rewardRatio: 0.25 },
+          { rank: 2, name: "V2", upgradeCost: 200, reward: 1000, revenue: 11000, minOrders: 22, minMembers: 7, rewardRatio: 0.4091 },
+          { rank: 3, name: "V3", upgradeCost: 500, reward: 2500, revenue: 47000, minOrders: 94, minMembers: 31, rewardRatio: 0.5319 },
+          { rank: 4, name: "V4", upgradeCost: 1200, reward: 5000, revenue: 191000, minOrders: 382, minMembers: 127, rewardRatio: 0.6126 },
+          { rank: 5, name: "V5", upgradeCost: 3000, reward: 10000, revenue: 767000, minOrders: 1534, minMembers: 511, rewardRatio: 0.6584 },
+          { rank: 6, name: "V6", upgradeCost: 8000, reward: 20000, revenue: 3071000, minOrders: 6142, minMembers: 2047, rewardRatio: 0.6828 },
+          { rank: 7, name: "V7", upgradeCost: 20000, reward: 48000, revenue: 12286500, minOrders: 24573, minMembers: 8191, rewardRatio: 0.6961 },
+          { rank: 8, name: "V8", upgradeCost: 50000, reward: 96000, revenue: 49151000, minOrders: 98302, minMembers: 32767, rewardRatio: 0.7033 },
+          { rank: 9, name: "V9", upgradeCost: 120000, reward: 880000, revenue: 196606500, minOrders: 393214, minMembers: 131071, rewardRatio: 0.7106 },
+          { rank: 10, name: "V10", upgradeCost: 300000, reward: 8800000, revenue: 786431000, minOrders: 1572862, minMembers: 524287, rewardRatio: 0.7258 }
         ],
         matrixRules: {
           spilloverEnabled: true,

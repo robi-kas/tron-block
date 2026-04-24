@@ -208,14 +208,18 @@ const System = () => {
                   )}
                 </div>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-2">
                     <div>
                       <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">Revenue</p>
-                      <p className="text-xs font-black text-black">{lvl.revenue ? lvl.revenue.toLocaleString() : '0'} USDT</p>
+                      <p className="text-[10px] font-black text-black">{lvl.revenue ? lvl.revenue.toLocaleString() : '0'}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">Min Orders</p>
-                      <p className="text-xs font-black text-black">{lvl.minOrders || '0'}</p>
+                      <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">Invite</p>
+                      <p className="text-[10px] font-black text-black">{lvl.minMembers ? lvl.minMembers.toLocaleString() : '0'}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase text-black/30 tracking-widest mb-1">Orders</p>
+                      <p className="text-[10px] font-black text-black">{lvl.minOrders || '0'}</p>
                     </div>
                   </div>
                   <div>
