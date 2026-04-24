@@ -451,8 +451,8 @@ const Home = () => {
           <div className="w-full mt-12 md:mt-16 pt-12 border-t border-white/10 flex flex-col lg:row items-center justify-between gap-10">
             <div className="flex flex-col md:flex-row items-center gap-10">
               <div className="flex items-center gap-1">
-                <div className="bg-white text-black font-black text-xs px-3 py-1 rounded-sm">MATRIX</div>
-                <div className="bg-[#CCFF00] text-black font-black text-xs px-3 py-1 rounded-sm">BLOCK</div>
+                <div className="bg-white text-black font-black text-xs px-3 py-1 rounded-sm">BLOCK</div>
+                <div className="bg-[#CCFF00] text-black font-black text-xs px-3 py-1 rounded-sm">MATRIX</div>
               </div>
               <p className="text-[10px] uppercase font-bold text-white/30 tracking-widest text-center whitespace-nowrap">© 2026 {systemConfig?.protocolName ?? 'BLOCK MATRIX'} · {t.builtOn}</p>
             </div>

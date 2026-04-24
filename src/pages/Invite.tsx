@@ -170,8 +170,8 @@ const PosterModal = ({ isOpen, onClose, referralLink, userId, t }: { isOpen: boo
 
              <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-6 md:mb-8">
-                   <div className={`${theme === 'brutalist' ? 'bg-black text-white' : 'bg-white text-black'} font-black text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-sm`}>MATRIX</div>
-                   <div className={`${theme === 'brutalist' ? 'bg-black text-[#CCFF00]' : 'bg-[#CCFF00] text-black'} font-black text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-sm`}>BLOCK</div>
+                   <div className={`${theme === 'brutalist' ? 'bg-black text-white' : 'bg-white text-black'} font-black text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-sm`}>BLOCK</div>
+                   <div className={`${theme === 'brutalist' ? 'bg-black text-[#CCFF00]' : 'bg-[#CCFF00] text-black'} font-black text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-sm`}>MATRIX</div>
                 </div>
                 
                 <h2 className={`text-4xl md:text-5xl font-black italic tracking-tighter leading-[0.85] uppercase mb-4
@@ -544,8 +544,8 @@ const Invite = () => {
                  {/* Poster Content Mock */}
                  <div className="relative z-10">
                     <div className="flex items-center gap-1 mb-4">
-                       <div className="bg-white text-black font-black text-[8px] px-2 py-0.5 rounded-sm">MATRIX</div>
-                       <div className="bg-[#CCFF00] text-black font-black text-[8px] px-2 py-0.5 rounded-sm">BLOCK</div>
+                       <div className="bg-white text-black font-black text-[8px] px-2 py-0.5 rounded-sm">BLOCK</div>
+                       <div className="bg-[#CCFF00] text-black font-black text-[8px] px-2 py-0.5 rounded-sm">MATRIX</div>
                     </div>
                     <h5 className="text-2xl font-black text-white italic leading-tight uppercase select-none">{t.joinTheMatrix}</h5>
                  </div>
