@@ -193,6 +193,91 @@ async function startServer() {
     }
   });
 
+  // Core Logic: Process Order (Calculates Differential Bonuses and Upgrades)
+  async function processOrder(orderId: number) {
+    const order: any = db.prepare("SELECT * FROM orders WHERE id = ?").get(orderId);
+    if (!order) return;
+
+    const configRow: any = db.prepare("SELECT data FROM system_config WHERE is_active = 1 LIMIT 1").get();
+    const config = JSON.parse(configRow.data);
+    const levels = config.levels;
+
+    const sourceUser: any = db.prepare("SELECT * FROM users WHERE id = ?").get(order.user_id);
+    let currentUplineId = sourceUser.referral_id;
+    let distributedRatio = 0;
+
+    // Traverse up the referral tree for Differential Bonus
+    while (currentUplineId && distributedRatio < 0.75) { // Cap at 75% for sustainability
+      const upline: any = db.prepare("SELECT * FROM users WHERE id = ?").get(currentUplineId);
+      if (!upline) break;
+
+      const uplineRank = levels.find((l: any) => l.rank === upline.level);
+      if (uplineRank && uplineRank.rewardRatio > distributedRatio) {
+        const bonusRatio = uplineRank.rewardRatio - distributedRatio;
+        const bonusAmount = order.amount * bonusRatio;
+
+        db.transaction(() => {
+          db.prepare("UPDATE users SET balance = balance + ?, total_rewards = total_rewards + ? WHERE id = ?")
+            .run(bonusAmount, bonusAmount, upline.id);
+          
+          db.prepare("INSERT INTO earnings (user_id, source_order_id, amount, type, metadata) VALUES (?, ?, ?, 'differential', ?)")
+            .run(upline.id, order.id, bonusAmount, JSON.stringify({ ratio: bonusRatio, source: sourceUser.address }));
+        })();
+
+        distributedRatio = uplineRank.rewardRatio;
+      }
+
+      // Check for Rank Upgrade for this upline
+      await checkUpgrade(upline.id, levels);
+      
+      currentUplineId = upline.referral_id;
+    }
+  }
+
+  async function checkUpgrade(userId: number, levels: any[]) {
+    const user: any = db.prepare("SELECT * FROM users WHERE id = ?").get(userId);
+    const nextLevel = levels.find((l: any) => l.rank === user.level + 1);
+    if (!nextLevel) return;
+
+    // Invitation (Direct Members)
+    const directCount: any = db.prepare("SELECT COUNT(*) as count FROM users WHERE referral_id = ?").get(userId);
+    
+    // Performance (Team Volume)
+    const teamVolume: any = db.prepare(`
+      SELECT COALESCE(SUM(amount), 0) as total 
+      FROM orders 
+      WHERE user_id IN (SELECT id FROM users WHERE referral_id = ?)
+    `).get(userId);
+
+    // Min Orders
+    const orderCount: any = db.prepare(`
+      SELECT COUNT(*) as count 
+      FROM orders 
+      WHERE user_id IN (SELECT id FROM users WHERE referral_id = ?)
+    `).get(userId);
+
+    if (
+      teamVolume.total >= nextLevel.revenue && 
+      directCount.count >= nextLevel.minMembers &&
+      orderCount.count >= nextLevel.minOrders
+    ) {
+      db.transaction(() => {
+        db.prepare("UPDATE users SET level = level + ? WHERE id = ?").run(1, userId);
+        
+        // One-time Reward (Single)
+        if (nextLevel.reward > 0) {
+          db.prepare("UPDATE users SET balance = balance + ?, total_rewards = total_rewards + ? WHERE id = ?")
+            .run(nextLevel.reward, nextLevel.reward, userId);
+          db.prepare("INSERT INTO earnings (user_id, amount, type, metadata) VALUES (?, ?, 'upgrade_bonus', ?)")
+            .run(userId, nextLevel.reward, JSON.stringify({ rank: nextLevel.name }));
+        }
+      })();
+      
+      // Recursively check if they qualify for the next level after this upgrade
+      await checkUpgrade(userId, levels);
+    }
+  }
+
   // Registration
   app.post("/api/matrix/register", (req, res) => {
     try {
@@ -207,20 +292,24 @@ async function startServer() {
           "INSERT INTO users (address, referral_id, level, mode, balance) VALUES (?, ?, 1, ?, 0)"
         ).run(address, uplineId, mode);
         
-        const userId = result.lastInsertRowid;
+        const userId = result.lastInsertRowid as number;
 
         db.prepare(
           "INSERT INTO seats (user_id, level_name, origin, tx_hash) VALUES (?, 'V1', 'First Purchase', ?)"
         ).run(userId, "0x" + Math.random().toString(16).slice(2, 66));
 
-        db.prepare(
+        const orderResult = db.prepare(
           "INSERT INTO orders (user_id, amount, type, tx_hash) VALUES (?, ?, 'activation', ?)"
         ).run(userId, fee, "0x" + Math.random().toString(16).slice(2, 66));
 
-        return userId;
+        return { userId, orderId: orderResult.lastInsertRowid as number };
       });
 
-      const userId = runRegistration();
+      const { userId, orderId } = runRegistration();
+      
+      // Process the activation order for bonuses
+      processOrder(orderId);
+      
       res.json({ success: true, userId });
     } catch (err) {
       res.status(500).json({ error: "Registration failed", details: err });
@@ -234,11 +323,15 @@ async function startServer() {
       const user: any = db.prepare("SELECT id FROM users WHERE address = ?").get(address);
       if (!user) return res.status(404).json({ error: "User not found" });
 
-      db.transaction(() => {
+      const runDeposit = db.transaction(() => {
         db.prepare("UPDATE users SET balance = balance + ? WHERE id = ?").run(amount, user.id);
-        db.prepare("INSERT INTO orders (user_id, amount, type, tx_hash) VALUES (?, ?, 'deposit', ?)")
+        const orderResult = db.prepare("INSERT INTO orders (user_id, amount, type, tx_hash) VALUES (?, ?, 'deposit', ?)")
           .run(user.id, amount, "0x" + Math.random().toString(16).slice(2, 66));
-      })();
+        return orderResult.lastInsertRowid as number;
+      });
+
+      const orderId = runDeposit();
+      processOrder(orderId);
 
       res.json({ success: true, newBalance: amount });
     } catch (err) {

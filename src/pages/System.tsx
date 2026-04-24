@@ -132,7 +132,7 @@ const System = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-white/70 font-bold italic max-w-3xl">
-            {t.rulesConfigCenter} • Run-time Engine: {systemConfig?.protocolName || 'TRON BLOCK'}
+            {t.rulesConfigCenter} • Run-time Engine: {systemConfig?.protocolName || 'BLOCK MATRIX'}
           </p>
         </motion.div>
       </section>

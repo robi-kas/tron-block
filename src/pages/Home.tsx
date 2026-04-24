@@ -244,7 +244,7 @@ const Home = () => {
                     : 'clamp(3px, 0.6vw, 8px) clamp(3px, 0.6vw, 8px) 0 #CCFF00'
                 }}
               >
-                TRON BLOCK
+                BLOCK MATRIX
               </h1>
             </motion.div>
             <motion.div
@@ -451,10 +451,10 @@ const Home = () => {
           <div className="w-full mt-12 md:mt-16 pt-12 border-t border-white/10 flex flex-col lg:row items-center justify-between gap-10">
             <div className="flex flex-col md:flex-row items-center gap-10">
               <div className="flex items-center gap-1">
-                <div className="bg-white text-black font-black text-xs px-3 py-1 rounded-sm">TRON</div>
+                <div className="bg-white text-black font-black text-xs px-3 py-1 rounded-sm">MATRIX</div>
                 <div className="bg-[#CCFF00] text-black font-black text-xs px-3 py-1 rounded-sm">BLOCK</div>
               </div>
-              <p className="text-[10px] uppercase font-bold text-white/30 tracking-widest text-center whitespace-nowrap">© 2026 {systemConfig?.protocolName ?? 'TRON BLOCK'} · {t.builtOn}</p>
+              <p className="text-[10px] uppercase font-bold text-white/30 tracking-widest text-center whitespace-nowrap">© 2026 {systemConfig?.protocolName ?? 'BLOCK MATRIX'} · {t.builtOn}</p>
             </div>
             <div className="flex gap-10">
               {[t.rules, 'Telegram', 'Twitter', t.contract].map(link => (

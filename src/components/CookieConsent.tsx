@@ -40,7 +40,7 @@ export const CookieConsent = () => {
           <div>
             <h4 className="text-lg font-black text-black uppercase italic leading-none mb-2">Cookie Configuration</h4>
             <p className="text-[10px] font-bold text-black/50 uppercase tracking-tight leading-relaxed">
-              {t.cookieText} We detect high-risk transactions and proxy connections to maintain the TRON BLOCK integrity.
+              {t.cookieText} We detect high-risk transactions and proxy connections to maintain the BLOCK MATRIX integrity.
             </p>
           </div>
           <div className="flex gap-3">

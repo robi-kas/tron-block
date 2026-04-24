@@ -46,7 +46,7 @@ const PosterModal = ({ isOpen, onClose, referralLink, userId, t }: { isOpen: boo
       });
       const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/png', 1.0));
       if (!blob) return null;
-      return new File([blob], `tron-block-${userId || '100001'}.png`, { type: 'image/png' });
+      return new File([blob], `block-matrix-${userId || '100001'}.png`, { type: 'image/png' });
     } catch (err) {
       console.error('Generation failed', err);
       return null;
@@ -65,7 +65,7 @@ const PosterModal = ({ isOpen, onClose, referralLink, userId, t }: { isOpen: boo
         });
         const dataUrl = canvas.toDataURL('image/png', 1.0);
         const link = document.createElement('a');
-        link.download = `tron-block-invite-${userId || 'anon'}.png`;
+        link.download = `block-matrix-invite-${userId || 'anon'}.png`;
         link.href = dataUrl;
         link.click();
       } catch (err) {
@@ -80,7 +80,7 @@ const PosterModal = ({ isOpen, onClose, referralLink, userId, t }: { isOpen: boo
     try {
       const file = await generateImageFile();
       const shareData: any = {
-        title: 'TRON BLOCK',
+        title: 'BLOCK MATRIX',
         text: t.shareCaption || 'Join the most powerful matrix system on BNB & Ethereum.',
       };
 
@@ -544,7 +544,7 @@ const Invite = () => {
                  {/* Poster Content Mock */}
                  <div className="relative z-10">
                     <div className="flex items-center gap-1 mb-4">
-                       <div className="bg-white text-black font-black text-[8px] px-2 py-0.5 rounded-sm">TRON</div>
+                       <div className="bg-white text-black font-black text-[8px] px-2 py-0.5 rounded-sm">MATRIX</div>
                        <div className="bg-[#CCFF00] text-black font-black text-[8px] px-2 py-0.5 rounded-sm">BLOCK</div>
                     </div>
                     <h5 className="text-2xl font-black text-white italic leading-tight uppercase select-none">{t.joinTheMatrix}</h5>
