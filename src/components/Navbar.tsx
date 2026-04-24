@@ -34,11 +34,11 @@ export const Navbar = () => {
           className="flex items-center gap-1"
         >
           <div className="bg-white text-black font-black tracking-tight text-sm px-3 py-1 rounded-xl rounded-bl-sm relative shadow-sm group-hover:scale-105 transition-transform flex items-center gap-1.5">
-            TRON
+            MATRIX
             <div className="absolute -bottom-1.5 left-0 w-3 h-3 bg-white" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }}></div>
           </div>
           <div className="bg-[#CCFF00] text-black font-black text-sm px-3 py-1 rounded-full border-[1.5px] border-white shadow-sm group-hover:scale-105 transition-transform">
-            BLOCK
+            MATRIX
           </div>
         </motion.div>
       </Link>

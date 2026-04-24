@@ -105,7 +105,7 @@ function initDB() {
         version: "V2026.04.24",
         lastUpdated: new Date().toISOString(),
         activationFee: 80,
-        protocolName: "TRON BLOCK",
+        protocolName: "BLOCK MATRIX",
         descriptions: {
           activation: "Activate a seat for 80 USDT to enter the global matrix ecosystem.",
           matrix: "Participate in the automated public matrix with spillover mechanisms.",

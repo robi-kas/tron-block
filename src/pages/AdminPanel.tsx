@@ -424,7 +424,7 @@ const AdminPanel: React.FC = () => {
                               <td className="p-6 text-white/40 font-mono text-[10px]">{new Date(o.created_at).toLocaleString()}</td>
                               <td className="p-6">
                                 <a 
-                                  href={`https://tronscan.org/#/transaction/${o.tx_hash}`} 
+                                  href={`https://bscscan.com/tx/${o.tx_hash}`} 
                                   target="_blank" 
                                   rel="noreferrer"
                                   className="font-mono text-white/30 hover:text-[#CCFF00] transition-colors flex items-center gap-1 group"

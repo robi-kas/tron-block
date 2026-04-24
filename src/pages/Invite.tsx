@@ -81,7 +81,7 @@ const PosterModal = ({ isOpen, onClose, referralLink, userId, t }: { isOpen: boo
       const file = await generateImageFile();
       const shareData: any = {
         title: 'TRON BLOCK',
-        text: t.shareCaption || 'Join the most powerful matrix system on TRON.',
+        text: t.shareCaption || 'Join the most powerful matrix system on BNB & Ethereum.',
       };
 
       if (action === 'share_native' && navigator.share && file && navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -170,7 +170,7 @@ const PosterModal = ({ isOpen, onClose, referralLink, userId, t }: { isOpen: boo
 
              <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-6 md:mb-8">
-                   <div className={`${theme === 'brutalist' ? 'bg-black text-white' : 'bg-white text-black'} font-black text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-sm`}>TRON</div>
+                   <div className={`${theme === 'brutalist' ? 'bg-black text-white' : 'bg-white text-black'} font-black text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-sm`}>MATRIX</div>
                    <div className={`${theme === 'brutalist' ? 'bg-black text-[#CCFF00]' : 'bg-[#CCFF00] text-black'} font-black text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-sm`}>BLOCK</div>
                 </div>
                 
@@ -217,7 +217,7 @@ const PosterModal = ({ isOpen, onClose, referralLink, userId, t }: { isOpen: boo
                      `}>NETWORK PROTOCOL</p>
                      <p className={`text-xs md:text-sm font-black italic
                        ${theme === 'brutalist' ? 'text-black' : 'text-white'}
-                     `}>TRON NETWORK</p>
+                     `}>EVM NETWORK</p>
                    </div>
                    <div className="text-right">
                      <p className={`text-lg md:text-xl font-black italic
